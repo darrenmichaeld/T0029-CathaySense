@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../../components/ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useState } from "react"
 
@@ -33,28 +33,28 @@ export default function CarouselMetric(){
     }
     return(
         <Card>
-    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-    <CardTitle>Latest News</CardTitle>
-    </CardHeader>
-    <CardContent className="relative">
-    <div className="overflow-hidden">
-        <div
-        className="flex transition-transform duration-300 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-        {newsItems.map((item, index) => (
-            <div key={index} className="w-full flex-shrink-0">
-            <Card>
-                <CardContent className="flex flex-col gap-4 p-6">
-                <p className="text-sm text-muted-foreground">{item.date}</p>
-                <h3 className="text-xl font-bold leading-tight">{item.title}</h3>
-                <p className="text-muted-foreground">{item.content}</p>
-                <div className="flex justify-between items-center">
-                    <button className="text-sm text-primary hover:underline">
-                    Read more
-                    </button>
-                </div>
-                </CardContent>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle>Latest News</CardTitle>
+            </CardHeader>
+            <CardContent className="relative">
+            <div className="overflow-hidden">
+                <div
+                className="flex transition-transform duration-300 ease-in-out"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                >
+                {newsItems.map((item, index) => (
+                    <div key={index} className="w-full flex-shrink-0">
+                    <Card>
+                        <CardContent className="flex flex-col gap-4 p-6">
+                            <p className="text-sm text-muted-foreground">{item.date}</p>
+                            <h3 className="text-xl font-bold leading-tight">{item.title}</h3>
+                            <p className="text-muted-foreground">{item.content}</p>
+                            <div className="flex justify-between items-center">
+                                <button className="text-sm text-primary hover:underline">
+                                    Read more
+                                </button>
+                            </div>
+                        </CardContent>
             </Card>
             </div>
         ))}

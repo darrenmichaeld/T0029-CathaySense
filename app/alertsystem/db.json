@@ -167,6 +167,20 @@
         "price_per_kg": 3.0,
         "departure_origin": "Singapore",
         "arrival_place": "Bangkok"
+      },
+      {
+        "flight_number": "CX126",
+        "brand": "Cathay",
+        "estimated_departure": "2023-10-10T09:00:00Z",
+        "estimated_arrival": "2023-10-10T13:00:00Z",
+        "actual_departure": "2023-10-10T09:05:00Z",
+        "actual_arrival": "2023-10-10T13:05:00Z",
+        "aircraft_type": "Airbus A330",
+        "aircraft_capacity": 80000,
+        "status": "OnTime",
+        "price_per_kg": 3.5,
+        "departure_origin": "Hong Kong",
+        "arrival_place": "Los Angeles"
       }
     ]
 }
