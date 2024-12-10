@@ -12,7 +12,6 @@ import { processFlightData, getRouteData, getPriceData, getAircraftData, getStat
 export default function KeyMetric() {
   // This will be replaced with Redux state management
   const analytics = processFlightData()
-
   const routeData = getRouteData(analytics)
   const priceData = getPriceData(analytics)
   const aircraftData = getAircraftData(analytics)
@@ -23,9 +22,12 @@ export default function KeyMetric() {
 
   return (
     <div>
+      <div className="grid gap-4 md:grid-cols-3 mt-4 text-4xl font-bold ml-4 mb-4">
+        <h2>Airline Dashboard</h2>
+      </div>
       <Card className="mb-4">
         <CardContent>
-          <h2 className="text-xl font-bold mb-2">AI Insights</h2>
+          <h2 className="text-xl font-bold mb-2 mt-6">AI Insights</h2>
           <p>{aiInsights}</p>
         </CardContent>
       </Card>
