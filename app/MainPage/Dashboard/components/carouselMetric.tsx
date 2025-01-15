@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../../components/ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useState } from "react"
