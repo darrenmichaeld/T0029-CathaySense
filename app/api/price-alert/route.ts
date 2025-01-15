@@ -185,6 +185,7 @@ const flights = [
     "arrival_place": "Los Angeles"
   }
 ];
+
 export async function GET(req: NextRequest) {
   try {
     // Get search params from the URL

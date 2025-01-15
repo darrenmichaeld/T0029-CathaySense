@@ -1,17 +1,49 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { RouteAnalysis } from './routeAnalysis'
 import { PricingTrends } from './pricingTrends'
 import { AircraftTypeAnalysis } from './aircraftTypeAnalysis'
 import { PunctualityAnalysis } from './punctualityAnalysis'
 import CarouselMetric from './carouselMetric'
-import { processFlightData, getRouteData, getPriceData, getAircraftData, getStatusData } from '../utils/dataProcessing'
+import { fetchFlightAnalytics } from '../action/flightActions'
+import { getRouteData, getPriceData, getAircraftData, getStatusData } from '../utils/dataProcessing'
+
+export interface Analytics {
+  totalFlights: number;
+  competitors: number;
+  countries: number;
+  routes: Record<string, number>;
+  priceByAirline: Record<string, number>;
+  status: Record<string, number>;
+  aircraftTypes: Record<string, number>;
+}
 
 export default function KeyMetric() {
-  // This will be replaced with Redux state management
-  const analytics = processFlightData()
+  const [analytics, setAnalytics] = useState<Analytics | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await fetchFlightAnalytics()
+        setAnalytics(data)
+      } catch (err) {
+        setError('Failed to fetch flight data')
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+  if (!analytics) return <div>No data available</div>
+
   const routeData = getRouteData(analytics)
   const priceData = getPriceData(analytics)
   const aircraftData = getAircraftData(analytics)

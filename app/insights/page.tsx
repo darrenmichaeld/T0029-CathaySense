@@ -10,6 +10,15 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import SideNav from '../MainPage/Dashboard/components/sideNav'
 import { flights } from '../MainPage/Dashboard/db/db'
 
+interface Analytics {
+  brand: string; 
+  departure_origin: string;
+  arrival_place: string;
+  price_per_kg: number;
+  status: string;
+  aircraft_capacity: number;
+}
+
 type AnalysisResult = {
   dynamicPricingRecommendations: {
     route: string
@@ -30,7 +39,10 @@ type AnalysisResult = {
   }
 }
 
-function analyzeFlightData(data: typeof flights): AnalysisResult {
+function analyzeFlightData(data: Analytics[] | undefined): AnalysisResult | null {
+  if (!data || data.length === 0) {
+    return null;
+  }
   const cathayFlights = data.filter(flight => flight.brand === 'Cathay')
   const competitorFlights = data.filter(flight => flight.brand !== 'Cathay')
 
@@ -68,7 +80,7 @@ function analyzeFlightData(data: typeof flights): AnalysisResult {
   const stations = Array.from(new Set(data.map(flight => flight.departure_origin)))
   const stationManagerInsights = stations.map(station => {
     const stationFlights = data.filter(flight => flight.departure_origin === station)
-    const delayedFlights = stationFlights.filter(flight => flight.status === 'Delayed')
+    const delayedFlights = stationFlights.filter(flight => flight.status.toLowerCase() === 'delayed')
     const delayFrequency = delayedFlights.length / stationFlights.length
     const capacityUtilization = stationFlights.reduce((sum, flight) => sum + flight.aircraft_capacity, 0) / (stationFlights.length * 100000)
 
@@ -121,7 +133,23 @@ function analyzeFlightData(data: typeof flights): AnalysisResult {
 
 export default function AdvancedFlightAnalysisDashboard() {
   const [activeTab, setActiveTab] = useState('dynamic-pricing')
-  const analysis = useMemo(() => analyzeFlightData(flights), [])
+  const analysis = useMemo(() => analyzeFlightData(flights as Analytics[] | undefined), [])
+
+  if (!flights || flights.length === 0) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <p className="text-xl font-semibold">No flight data available.</p>
+      </div>
+    )
+  }
+
+  if (!analysis) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <p className="text-xl font-semibold">Error analyzing flight data.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -247,3 +275,4 @@ export default function AdvancedFlightAnalysisDashboard() {
     </div>
   )
 }
+
